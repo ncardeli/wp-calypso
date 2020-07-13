@@ -1,7 +1,6 @@
 /**
  * External dependencies
  */
-import { assign } from 'lodash';
 import debugFactory from 'debug';
 const debug = debugFactory( 'calypso:media' );
 
@@ -10,7 +9,6 @@ const debug = debugFactory( 'calypso:media' );
  */
 import Dispatcher from 'dispatcher';
 import { reduxDispatch } from 'lib/redux-bridge';
-import MediaStore from './store';
 import { changeMediaSource } from 'state/media/actions';
 
 /**
