@@ -491,6 +491,8 @@ export class List extends React.Component {
 				selectionIndex={ index }
 				onMakePrimaryClick={ this.handleUpdatePrimaryDomain }
 				onSelect={ this.handleUpdatePrimaryDomain }
+				onUpgradeClick={ this.goToPlans }
+				shouldUpgradeToMakePrimary={ this.shouldUpgradeToMakeDomainPrimary( domain ) }
 			/>
 		) );
 
