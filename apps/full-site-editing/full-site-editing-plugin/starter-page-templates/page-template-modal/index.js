@@ -169,7 +169,7 @@ class PageTemplateModal extends Component {
 		const blankTemplate = get( props.templates, [ 0, 'slug' ] );
 		let previouslyChosenTemplate = props._starter_page_template;
 
-		// Usally the "new page" case
+		// Usually the "new page" case
 		if ( ! props.isFrontPage && ! previouslyChosenTemplate ) {
 			return blankTemplate;
 		}
@@ -382,7 +382,13 @@ class PageTemplateModal extends Component {
 
 	render() {
 		const { previewedTemplate, isLoading } = this.state;
-		const { isPromptedFromSidebar, hidePageTitle, isOpen } = this.props;
+		const {
+			isPromptedFromSidebar,
+			hidePageTitle,
+			isOpen,
+			isFrontPage,
+			_starter_page_template: previouslyChosenTemplate,
+		} = this.props;
 
 		if ( ! isOpen ) {
 			return null;
@@ -402,6 +408,9 @@ class PageTemplateModal extends Component {
 			teamTemplates,
 			homepageTemplates,
 		} = this.getTemplateGroups();
+
+		// Usually this means it's a "new page"
+		const isNewPage = ! isFrontPage && ! previouslyChosenTemplate;
 
 		return (
 			<Modal
@@ -438,64 +447,53 @@ class PageTemplateModal extends Component {
 					) : (
 						<>
 							<form className="page-template-modal__form">
-								{ this.renderTemplatesList(
-									currentTemplate,
-									__( 'Current', 'full-site-editing' )
-								) }
-
+								{ ! isNewPage &&
+									this.renderTemplatesList(
+										currentTemplate,
+										__( 'Current', 'full-site-editing' )
+									) }
 								{ this.props.isFrontPage &&
 									this.renderTemplatesList(
 										homepageTemplates,
 										__( 'Home Pages', 'full-site-editing' )
 									) }
-
 								{ this.renderTemplatesList( blankTemplate, __( 'Blank', 'full-site-editing' ) ) }
-
 								{ this.renderTemplatesList(
 									aboutTemplates,
 									__( 'About Pages', 'full-site-editing' )
 								) }
-
 								{ this.renderTemplatesList(
 									blogTemplates,
 									__( 'Blog Pages', 'full-site-editing' )
 								) }
-
 								{ this.renderTemplatesList(
 									contactTemplates,
 									__( 'Contact Pages', 'full-site-editing' )
 								) }
-
 								{ this.renderTemplatesList(
 									eventTemplates,
 									__( 'Event Pages', 'full-site-editing' )
 								) }
-
 								{ this.renderTemplatesList(
 									menuTemplates,
 									__( 'Menu Pages', 'full-site-editing' )
 								) }
-
 								{ this.renderTemplatesList(
 									portfolioTemplates,
 									__( 'Portfolio Pages', 'full-site-editing' )
 								) }
-
 								{ this.renderTemplatesList(
 									productTemplates,
 									__( 'Product Pages', 'full-site-editing' )
 								) }
-
 								{ this.renderTemplatesList(
 									servicesTemplates,
 									__( 'Services Pages', 'full-site-editing' )
 								) }
-
 								{ this.renderTemplatesList(
 									teamTemplates,
 									__( 'Team Pages', 'full-site-editing' )
 								) }
-
 								{ ! this.props.isFrontPage &&
 									this.renderTemplatesList(
 										homepageTemplates,
