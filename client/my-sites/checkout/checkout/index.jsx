@@ -626,7 +626,7 @@ export class Checkout extends React.Component {
 		}
 
 		// Domain only flow
-		if ( ! this.props.isLoggedOutCart && cart.create_new_blog ) {
+		if ( cart.create_new_blog ) {
 			return `${ signupDestination }/${ pendingOrReceiptId }`;
 		}
 
@@ -764,10 +764,7 @@ export class Checkout extends React.Component {
 		this.props.setHeaderText( '' );
 
 		if (
-			( ! this.props.isLoggedOutCart &&
-				cart.create_new_blog &&
-				receipt &&
-				isEmpty( receipt.failed_purchases ) ) ||
+			( cart.create_new_blog && receipt && isEmpty( receipt.failed_purchases ) ) ||
 			( isDomainOnly && hasPlan( cart ) && ! selectedSiteId )
 		) {
 			notices.info( translate( 'Almost done…' ) );
@@ -787,13 +784,6 @@ export class Checkout extends React.Component {
 			}
 		}
 
-		if ( this.props.isLoggedOutCart ) {
-			window.localStorage.removeItem( 'shoppingCart' );
-			window.localStorage.removeItem( 'siteParams' );
-			window.location = redirectPath;
-			return;
-		}
-
 		page( redirectPath );
 	};
 
@@ -807,7 +797,6 @@ export class Checkout extends React.Component {
 			setHeaderText,
 			userCountryCode,
 			isWhiteGloveOffer,
-			isLoggedOutCart,
 		} = this.props;
 
 		if ( this.isLoading() ) {
@@ -824,7 +813,6 @@ export class Checkout extends React.Component {
 					cart={ cart }
 					productsList={ productsList }
 					userCountryCode={ userCountryCode }
-					isLoggedOutCart={ isLoggedOutCart }
 				/>
 			);
 		}
@@ -842,7 +830,6 @@ export class Checkout extends React.Component {
 				handleCheckoutCompleteRedirect={ this.handleCheckoutCompleteRedirect }
 				handleCheckoutExternalRedirect={ this.handleCheckoutExternalRedirect }
 				isWhiteGloveOffer={ isWhiteGloveOffer }
-				isLoggedOutCart={ isLoggedOutCart }
 			>
 				{ this.renderSubscriptionLengthPicker() }
 			</SecurePaymentForm>
@@ -855,9 +842,7 @@ export class Checkout extends React.Component {
 			return false;
 		}
 
-		const currentPlanSlug = this.props.isLoggedOutCart
-			? 'free_plan'
-			: this.props.selectedSite.plan.product_slug;
+		const currentPlanSlug = this.props.selectedSite.plan.product_slug;
 		const chosenPlan = getPlan( planInCart.product_slug );
 
 		// Only render this for WP.com plans
